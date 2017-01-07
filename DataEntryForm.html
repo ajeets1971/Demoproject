@@ -7,11 +7,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even){background-color: #f2f2f2}
+
+        th {
+            background-color: #659baf;
+            color: white;
+        }
+        .dv {
+            background-color: #659baf;
+        }
+    </style>
+
 </head>
 <body>
 <center>
     <div class="container">
         <h1>Let me know!!!</h1>
+        <div class="dv">-------</div>
         <table id="myTable" class="table">
 
             <thead>
@@ -33,7 +56,7 @@
 
                 </td>
             </tr>
-            <tr>
+            <tr class="active">
                 <td>
                     Phone No.
                 </td>
@@ -55,15 +78,16 @@
         </table>
 
         <div id="dvTable">
+
         </div>
 
         <br><br>
-
-        <table id="DTable"  class="table">
-
+    </div>
+        <table id="DTable">
+            <th><center>Information</center></th>
         </table>
         <p id="demo"></p>
-    </div>
+
 </center>
 
 </body>
@@ -100,7 +124,7 @@
             p=document.getElementById("p").value;
 
             for(i=1;i<=intTextBox;i++){
-                p+=" | "+document.getElementById("tb_"+ i + "").value;
+                p+=","+document.getElementById("tb_"+ i + "").value;
             }
 
             var d=document.getElementById("f");
@@ -117,7 +141,7 @@
                 flag=0;
             }
             //Add the data rows.
-            var row = table.insertRow(0);
+            var row = table.insertRow(1);
             var cellf = row.insertCell(0);
             cellf.innerHTML = f;
             var celll = row.insertCell(1);
@@ -142,7 +166,16 @@
                 d.value=t;
                 var t=cellp.innerHTML;
                 var d=document.getElementById("p");
-                d.value=t;
+
+                var temp = new Array();
+                temp = p.split(',');
+                d.value=temp[0];
+                for(i=1;i<temp.length;i++)
+                {
+                    add();
+                    document.getElementById("tb_"+ i + "").value=temp[i];
+                }
+
 
             };
             cell.appendChild(element);
@@ -150,6 +183,10 @@
             var dvTable = document.getElementById("dvTable");
             dvTable.innerHTML = "";
             dvTable.appendChild(table);
+            while(0<intTextBox)
+            {
+                remove();
+            }
 
         }
 
@@ -161,7 +198,7 @@
         objNewDiv.setAttribute('id', 'div_' + intTextBox);
         objNewDiv.innerHTML = '<input type="text" id="tb_' + intTextBox + '" name="tb_' + intTextBox + '"/>';
         document.getElementById('content').appendChild(objNewDiv);
-       // var n="tb_" + intTextBox ;
+
 
     }
     function remove()
@@ -170,7 +207,7 @@
             document.getElementById('content').removeChild(document.getElementById('div_' + intTextBox));
             intTextBox--;
         } else {
-            alert("No textbox to remove");
+            alert("One Phone No. must !!! ");
         }
     }
 
