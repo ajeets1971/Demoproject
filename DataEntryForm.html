@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<center>
+    <div class="container">
+        <h1>Let me know!!!</h1>
+        <table id="myTable" class="table">
+
+            <thead>
+
+            <tr class="active">
+                <td>
+                    <p>First name :</p>
+                </td>
+                <td>
+                    <input id="f" type="text" required>
+                </td>
+            </tr>
+            <tr class="active">
+                <td>
+                    <p>Last name :</p>
+                </td>
+                <td>
+                    <input id="l" type="text" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Phone No.
+                </td>
+                <td>
+                    <input id="p" type="text" required>
+                    <button onclick="remove()"  type="button" class="btn btn-info">-</button>
+                    <button onclick="add()"  type="button" class="btn btn-info">+</button>
+                    <div id="content"></div>
+
+                </td>
+            </tr>
+            <tr class="active">
+                <td>
+                    <button onclick="myFunction()"  type="button" class="btn btn-info">OK</button>
+                </td>
+            </tr>
+
+            </thead>
+        </table>
+
+        <div id="dvTable">
+        </div>
+
+        <br><br>
+
+        <table id="DTable"  class="table">
+
+        </table>
+        <p id="demo"></p>
+    </div>
+</center>
+
+</body>
+
+
+<script>
+    var flag=0;var intTextBox = 0;var p;
+    function myFunction() {
+
+
+        var inpObjf = document.getElementById("f");
+        var inpObjl = document.getElementById("l");
+        if (inpObjf.checkValidity() == false && inpObjl.checkValidity() == false) {
+            document.getElementById("demo").innerHTML = inpObjf.validationMessage;
+        }
+        else {
+
+            //Build an array containing records.
+            var customers = new Array();
+            customers.push(["First name", "Last name","Phone NO.", "edit"]);
+
+
+            //Create a HTML Table element.
+            var table = document.getElementById("DTable");
+            table.border = "1";
+
+            //Get the count of columns.
+            var columnCount = customers[0].length;
+
+            //Add the header row.
+            var i=1;
+            var f = document.getElementById("f").value;
+            var l = document.getElementById("l").value;
+            p=document.getElementById("p").value;
+
+            for(i=1;i<=intTextBox;i++){
+                p+=" | "+document.getElementById("tb_"+ i + "").value;
+            }
+
+            var d=document.getElementById("f");
+            d.value="";
+            var d=document.getElementById("l");
+            d.value="";
+            document.getElementById("p").value="";
+            for(i=1;i<=intTextBox;i++){
+                document.getElementById("tb_"+ i + "").value="";
+            }
+            if(flag==1)
+            {
+                document.getElementById("DTable").deleteRow(this);
+                flag=0;
+            }
+            //Add the data rows.
+            var row = table.insertRow(0);
+            var cellf = row.insertCell(0);
+            cellf.innerHTML = f;
+            var celll = row.insertCell(1);
+            celll.innerHTML = l;
+            var cellp = row.insertCell(2);
+            cellp.innerHTML = p;
+            var cell = row.insertCell(3);
+
+            var element = document.createElement("input");
+            //Assign different attributes to the element.
+            element.type = "button";
+            element.value = "edit";
+            element.name = "b";
+            element.class="btn btn-info";
+            element.onclick =function(){
+                flag=1;
+                var t=cellf.innerHTML;
+                var d=document.getElementById("f");
+                d.value=t;
+                var t=celll.innerHTML;
+                var d=document.getElementById("l");
+                d.value=t;
+                var t=cellp.innerHTML;
+                var d=document.getElementById("p");
+                d.value=t;
+
+            };
+            cell.appendChild(element);
+
+            var dvTable = document.getElementById("dvTable");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
+
+        }
+
+    }
+    function add()
+    {
+        intTextBox++;
+        var objNewDiv = document.createElement('div');
+        objNewDiv.setAttribute('id', 'div_' + intTextBox);
+        objNewDiv.innerHTML = '<input type="text" id="tb_' + intTextBox + '" name="tb_' + intTextBox + '"/>';
+        document.getElementById('content').appendChild(objNewDiv);
+       // var n="tb_" + intTextBox ;
+
+    }
+    function remove()
+    {
+        if(0 < intTextBox) {
+            document.getElementById('content').removeChild(document.getElementById('div_' + intTextBox));
+            intTextBox--;
+        } else {
+            alert("No textbox to remove");
+        }
+    }
+
+</script>
